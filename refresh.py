@@ -136,7 +136,8 @@ def refresh():
     with open('pool_token.txt', 'r') as file:
         pool_token = file.readline()
 
-    update_pool_token(pool_token, share_tokens)
+    if pool_token != '':
+        update_pool_token(pool_token, share_tokens)
 
 
 if __name__ == '__main__':
