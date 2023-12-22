@@ -92,8 +92,9 @@ def update_pool_token(pool_token: str, share_tokens: list) -> str:
 def get_session_tokens() -> None:
     session_tokens = []
     for line in credentials:
-        _ , username, password = line.split(',', 2)
-        session_tokens.append(get_session_token(username, password))
+        if(line != ''):
+            _ , username, password = line.split(',', 2)
+            session_tokens.append(get_session_token(username, password))
 
     remove_s('session_tokens.txt')
 
