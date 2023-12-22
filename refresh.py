@@ -24,7 +24,7 @@ def get_session_token(username: str, password: str) -> str:
         response_json = response.json()
 
     if 'session_token' in response_json:
-        return response_json.session_token + '\n'
+        return response_json['session_token'] + '\n'
 
     # to keep credentials.txt and session_tokens.txt aligned
     return '\n'
@@ -40,7 +40,7 @@ def get_access_token(session_token: str) -> str:
         response_json = response.json()
 
     if 'access_token' in response_json:
-        return response_json.access_token
+        return response_json['access_token']
     
     # get access token failed, which means session token may be expired
     with open('session_tokens.txt', 'r') as file:
@@ -66,7 +66,7 @@ def get_access_token(session_token: str) -> str:
         response_json = response.json()
 
     if 'access_token' in response_json:
-        return response_json.access_token
+        return response_json['access_token']
 
     # give it up
     return ''
@@ -86,9 +86,8 @@ def get_share_token(unique_name: str, access_token: str) -> str:
     if(response.status_code == 200):
         response_json = response.json()
 
-
     if 'token_key' in response_json:
-        return response_json.token_key + '\n'
+        return response_json['token_key'] + '\n'
     
     return '\n'
 
@@ -136,7 +135,7 @@ def refresh():
     
     share_tokens = []
     for index, access_token in enumerate(access_tokens):
-        unique_name, _ = credentials[index].split(',', 2)
+        unique_name, _ = credentials[index].split(',', 1)
         if access_token != '':
             share_tokens.append(get_share_token(unique_name, access_token))
 
