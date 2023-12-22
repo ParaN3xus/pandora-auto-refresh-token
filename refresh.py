@@ -42,8 +42,8 @@ def get_access_token(session_token: str) -> str:
 
     for index, token in enumerate(session_tokens):
         if token == session_token:
-            new_token = get_session_token(username, password)
             _ , username, password = credentials[index].split(',', 2)
+            new_token = get_session_token(username, password)
             session_tokens[index] = new_token
             break
 
