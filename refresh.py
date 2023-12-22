@@ -122,7 +122,7 @@ def refresh():
         global credentials
         credentials = file.readlines()
 
-    if os.path.exists('session_tokens.txt'):
+    if not os.path.exists('session_tokens.txt'):
         get_session_tokens()
 
     with open('session_tokens.txt', 'r') as file:
