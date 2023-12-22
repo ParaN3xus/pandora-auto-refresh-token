@@ -52,7 +52,7 @@ def get_access_token(session_token: str) -> str:
         file.writelines(session_tokens)
 
     data = {
-        'session_token': new_token.replace('\n', '')
+        'session_token': new_token.strip()
     }
     response = requests.request('POST', base_url + '/api/auth/session', headers=headers, data=data)
 
@@ -92,9 +92,9 @@ def update_pool_token(pool_token: str, share_tokens: list) -> str:
 def get_session_tokens() -> None:
     session_tokens = []
     for line in credentials:
-        if(line != ''):
+        if(line.strip() != ''):
             _ , username, password = line.split(',', 2)
-            session_tokens.append(get_session_token(username, password))
+            session_tokens.append(get_session_token(username, password.strip()))
 
     remove_s('session_tokens.txt')
 
@@ -118,7 +118,7 @@ def refresh():
 
     access_tokens = []
     for session_token in session_tokens:
-        if session_token != '':
+        if session_token.strip() != '':
             access_tokens.append(get_access_token(session_token))
     
     share_tokens = []
@@ -137,7 +137,7 @@ def refresh():
     with open('pool_token.txt', 'r') as file:
         pool_token = file.readline()
 
-    if pool_token != '':
+    if pool_token.strip() != '':
         update_pool_token(pool_token, share_tokens)
 
 
