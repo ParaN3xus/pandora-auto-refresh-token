@@ -20,8 +20,11 @@ def get_session_token(username: str, password: str) -> str:
     }
     response = requests.request('POST', base_url + '/api/auth/login', headers=headers, data=data)
 
-    if 'session_token' in response:
-        return response.session_token + '\n'
+    if(response.status_code == 200):
+        response_json = response.json()
+
+    if 'session_token' in response_json:
+        return response_json.session_token + '\n'
 
     # to keep credentials.txt and session_tokens.txt aligned
     return '\n'
@@ -33,8 +36,11 @@ def get_access_token(session_token: str) -> str:
     }
     response = requests.request('POST', base_url + '/api/auth/session', headers=headers, data=data)
 
-    if 'access_token' in response:
-        return response.access_token
+    if(response.status_code == 200):
+        response_json = response.json()
+
+    if 'access_token' in response_json:
+        return response_json.access_token
     
     # get access token failed, which means session token may be expired
     with open('session_tokens.txt', 'r') as file:
@@ -56,8 +62,11 @@ def get_access_token(session_token: str) -> str:
     }
     response = requests.request('POST', base_url + '/api/auth/session', headers=headers, data=data)
 
-    if 'access_token' in response:
-        return response.access_token
+    if(response.status_code == 200):
+        response_json = response.json()
+
+    if 'access_token' in response_json:
+        return response_json.access_token
 
     # give it up
     return ''
@@ -74,8 +83,12 @@ def get_share_token(unique_name: str, access_token: str) -> str:
     }
     response = requests.request('POST', base_url + '/api/token/register', headers=headers, data=data)
 
-    if 'token_key' in response:
-        return response.token_key + '\n'
+    if(response.status_code == 200):
+        response_json = response.json()
+
+
+    if 'token_key' in response_json:
+        return response_json.token_key + '\n'
     
     return '\n'
 
